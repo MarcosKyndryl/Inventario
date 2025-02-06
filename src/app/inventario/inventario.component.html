@@ -1,0 +1,35 @@
+<h2>Inventario de Activos</h2>
+
+<div *ngFor="let usuario of inventario | keyvalue">
+  <h3>{{ usuario.key }}</h3>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Etiqueta</th>
+        <th>Serie</th>
+        <th>Descripción</th>
+        <th>Marca</th>
+        <th>Función</th>
+        <th>Fecha Alta</th>
+        <th>Ubicación</th>
+        <th>Piso</th>
+        <th>Asignado</th>
+        <th>Estado Teams</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of usuario.value">
+        <td>{{ item.etiqueta_activo }}</td>
+        <td>{{ item.numero_serie }}</td>
+        <td>{{ item.item_description }}</td>
+        <td>{{ item.marca }}</td>
+        <td>{{ item.funcion_name }}</td>
+        <td>{{ item.fecha_alta }}</td>
+        <td>{{ item.ubicacion_asignada }}</td>
+        <td>{{ item.piso }}</td>
+        <td>{{ item.asignado }}</td>
+        <td>{{ item.estado_teams }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
