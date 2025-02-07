@@ -1,1 +1,40 @@
-<p>respuesta works!</p>
+<div class="container">
+    <h2>Respuestas del Servidor</h2>
+  
+    <!-- Verifica si hay respuestas -->
+    <div *ngIf="respuestas.length > 0; else noDatos">
+      <div *ngFor="let respuesta of respuestas" class="card">
+        <h3>{{ respuesta.CorreoUsuario }}</h3>
+        <p><strong>Fecha y Hora:</strong> {{ respuesta.Hora }}</p>
+        <p><strong>Comentario:</strong> {{ respuesta.Comentario }}</p>
+  
+        <h4>Dispositivos:</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Etiqueta</th>
+              <th>Descripción</th>
+              <th>Marca</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let dispositivo of respuesta.Dispositivos">
+              <td>{{ dispositivo.Etiqueta }}</td>
+              <td>{{ dispositivo.Descripcion }}</td>
+              <td>{{ dispositivo.Marca }}</td>
+              <td [ngClass]="{ 'activo': dispositivo.Estado === 1, 'inactivo': dispositivo.Estado === 0 }">
+                {{ dispositivo.Estado === 1 ? 'Activo' : 'Inactivo' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+    <!-- Mensaje cuando no hay respuestas -->
+    <ng-template #noDatos>
+      <p>No hay respuestas disponibles.</p>
+    </ng-template>
+  </div>
+  

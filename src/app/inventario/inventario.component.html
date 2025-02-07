@@ -1,43 +1,57 @@
-<h2>Inventario de Activos</h2>
+<div class="container">
+  <h2>Inventario de Activos</h2>
 
-<!-- Muestra los datos solo si existen -->
-<div *ngIf="inventario !== null && getInventarioKeys().length > 0; else loading">
-  <div *ngFor="let usuario of getInventarioKeys()">
-    <h3>{{ usuario }}</h3>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Etiqueta</th>
-          <th>Serie</th>
-          <th>Descripción</th>
-          <th>Marca</th>
-          <th>Función</th>
-          <th>Fecha Alta</th>
-          <th>Ubicación</th>
-          <th>Piso</th>
-          <th>Asignado</th>
-          <th>Estado Teams</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of (inventario[usuario] || [])">
-          <td>{{ item.etiqueta_activo }}</td>
-          <td>{{ item.numero_serie }}</td>
-          <td>{{ item.item_description }}</td>
-          <td>{{ item.marca }}</td>
-          <td>{{ item.funcion_name }}</td>
-          <td>{{ item.fecha_alta }}</td>
-          <td>{{ item.ubicacion_asignada }}</td>
-          <td>{{ item.piso }}</td>
-          <td>{{ item.asignado }}</td>
-          <td>{{ item.estado_teams }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Mensaje de carga -->
+  <div *ngIf="cargando" class="spinner">
+    <p>Cargando inventario...</p>
   </div>
-</div>
 
-<!-- Mensaje de carga mientras se obtienen los datos -->
-<ng-template #loading>
-  <p>Cargando inventario...</p>
-</ng-template>
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <!-- Tabla de resultados -->
+  <table *ngIf="!cargando && inventario.length > 0" class="resultados">
+    <thead>
+      <tr>
+        <th>Usuario</th>
+        <th>Etiqueta</th>
+        <th>Serie</th>
+        <th>Descripción</th>
+        <th>Marca</th>
+        <th>Función</th>
+        <th>Fecha Alta</th>
+        <th>Ubicación</th>
+        <th>Piso</th>
+        <th>Asignado</th>
+        <th>Estado Teams</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of inventario">
+        <td>{{ item.usuario }}</td>
+        <td>{{ item.etiqueta_activo }}</td>
+        <td>{{ item.numero_serie }}</td>
+        <td>{{ item.item_description }}</td>
+        <td>{{ item.marca }}</td>
+        <td>{{ item.funcion_name }}</td>
+        <td>{{ item.fecha_alta }}</td>
+        <td>{{ item.ubicacion_asignada }}</td>
+        <td>{{ item.piso }}</td>
+        <td>{{ item.asignado }}</td>
+        <td
+          [ngClass]="{
+            'estado-en-proceso': item.estado_teams === 'PENDIENTE',
+            'estado-correcto': item.estado_teams !== 'PENDIENTE'
+          }"
+        >
+          {{ item.estado_teams }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Mensaje si no hay datos -->
+  <div *ngIf="!cargando && inventario.length === 0" class="no-resultados">
+    <p>No hay inventa
